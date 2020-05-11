@@ -8,7 +8,7 @@ export const constructApiCall = (request, params = []) => {
       return `${params}&${currentParam.key}=${currentParam.value}`;
     }, "");
 
-    return `${endpoint}${request}${paramString}?&ts=1&apikey=${apiKey}&hash=${hash}`;
+    return `${endpoint}${request}?${paramString}&ts=1&apikey=${apiKey}&hash=${hash}`;
   } else {
     return `${endpoint}${request}?ts=1&apikey=${apiKey}&hash=${hash}`;
   }

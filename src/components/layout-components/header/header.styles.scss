@@ -1,0 +1,28 @@
+.header {
+  grid-column: full-start / full-end;
+  background-color: #000;
+
+  display: flex;
+  justify-content: flex-end;
+
+  .options {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .option {
+      color: #fff;
+      padding: 1rem 1.5rem;
+      font-size: 1.2rem;
+      text-decoration: none;
+      border-bottom: 1px solid #000;
+
+      &:hover {
+        border-bottom: 1px solid #ed1d24;
+        color: #ed1d24;
+      }
+    }
+  }
+}

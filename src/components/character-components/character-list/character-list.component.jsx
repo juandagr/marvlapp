@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CharacterCard from "../character-card/character-card.component";
 
 import "./character-list.styles.scss";
+import { getCharacters } from "../../../marvel-api/characters";
 
 class CharacterList extends Component {
   constructor() {
@@ -12,9 +13,9 @@ class CharacterList extends Component {
   }
 
   componentWillMount() {
-    fetch(
-      "https://gateway.marvel.com/v1/public/characters?ts=1&apikey=3c577a3110c6fa24f646e66777e51b10&hash=e700ec10248a532fcfc59e6c0dd88421"
-    )
+    const charactersCall = getCharacters([{ key: "limit", value: "24" }]);
+
+    fetch(charactersCall)
       .then((response) => response.json())
       .then((response) => this.setState({ characters: response.data.results }));
   }
