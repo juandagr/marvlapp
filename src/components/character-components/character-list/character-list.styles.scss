@@ -1,7 +1,49 @@
-.character-list {
+.character-list-container {
   grid-column: full-start / full-end;
+  display: flex;
+  flex-direction: column;
 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 1rem;
+  .character-list {
+    grid-column: full-start / full-end;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1rem;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 2rem 0;
+    font-size: 2rem;
+
+    .item {
+      background-color: red;
+      margin: 0.2rem;
+
+      &.active {
+        background-color: white;
+
+        .link.undefined {
+          color: red;
+        }
+      }
+
+      .link:link,
+      .link:visited {
+        padding: 1rem 2rem;
+        height: 100%;
+        text-decoration: none;
+        display: block;
+        color: white;
+      }
+
+      .link:hover,
+      .link:active {
+        background-color: white;
+        color: red;
+      }
+    }
+  }
 }

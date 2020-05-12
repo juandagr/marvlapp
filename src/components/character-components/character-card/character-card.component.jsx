@@ -3,7 +3,6 @@ import React from "react";
 import "./character-card.styles.scss";
 
 const CharacterCard = ({ character }) => {
-  console.log(character);
   return (
     <div className="character-card">
       <div
