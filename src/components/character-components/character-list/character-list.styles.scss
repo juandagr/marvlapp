@@ -3,6 +3,13 @@
   display: flex;
   flex-direction: column;
 
+  .title {
+    align-self: center;
+    font-size: 7rem;
+    font-weight: 900;
+    color: #ed1d24;
+  }
+
   .character-list {
     grid-column: full-start / full-end;
 
@@ -19,14 +26,14 @@
     font-size: 2rem;
 
     .item {
-      background-color: red;
+      background-color: #ed1d24;
       margin: 0.2rem;
 
       &.active {
         background-color: white;
 
         .link.undefined {
-          color: red;
+          color: #ed1d24;
         }
       }
 
@@ -42,7 +49,7 @@
       .link:hover,
       .link:active {
         background-color: white;
-        color: red;
+        color: #ed1d24;
       }
     }
   }
