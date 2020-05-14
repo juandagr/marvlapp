@@ -6,6 +6,9 @@ import { getCharacters } from "../../../marvel-api/characters";
 import Pagination from "react-js-pagination";
 import Search from "../../general-components/search/search.component";
 
+import { getCharactersStart } from "../../../redux/characters/characters.actions";
+import { connect } from "react-redux";
+
 class CharacterList extends Component {
   constructor() {
     super();
@@ -17,7 +20,8 @@ class CharacterList extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    const { getCharactersStart } = this.props;
     const charactersCall = getCharacters([
       { key: "limit", value: this.state.charactersPerPage },
     ]);
@@ -30,6 +34,7 @@ class CharacterList extends Component {
           totalCharacters: response.data.total,
         })
       );
+    getCharactersStart({ charactersPerPage: 24, pageNumber: 1 });
   }
 
   handlePageChange = (pageNumber) => {
@@ -94,4 +99,7 @@ class CharacterList extends Component {
   }
 }
 
-export default CharacterList;
+const mapDispatchToProps = (dispatch) => ({
+  getCharactersStart: (params) => dispatch(getCharactersStart(params)),
+});
+export default connect(null, mapDispatchToProps)(CharacterList);
