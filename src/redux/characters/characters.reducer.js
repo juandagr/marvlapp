@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   characters: [],
   activePage: 1,
   charactersPerPage: 24,
-  totalCharacters: null,
+  totalCharacters: 0,
   error: null,
   isCharactersFetching: false,
 };

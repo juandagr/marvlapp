@@ -8,6 +8,13 @@ import Search from "../../general-components/search/search.component";
 
 import { getCharactersStart } from "../../../redux/characters/characters.actions";
 import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import {
+  selectCurrentCharacters,
+  selectActivePage,
+  selectCharactersPerPage,
+  selectTotalCharacters,
+} from "../../../redux/characters/characters.selectors";
 
 class CharacterList extends Component {
   constructor() {
@@ -21,20 +28,15 @@ class CharacterList extends Component {
   }
 
   componentDidMount() {
-    const { getCharactersStart } = this.props;
-    const charactersCall = getCharacters([
-      { key: "limit", value: this.state.charactersPerPage },
-    ]);
-
-    fetch(charactersCall)
-      .then((response) => response.json())
-      .then((response) =>
-        this.setState({
-          characters: response.data.results,
-          totalCharacters: response.data.total,
-        })
-      );
-    getCharactersStart({ charactersPerPage: 24, pageNumber: 1 });
+    const {
+      getCharactersStart,
+      selectActivePage,
+      selectCharactersPerPage,
+    } = this.props;
+    getCharactersStart({
+      charactersPerPage: selectCharactersPerPage,
+      pageNumber: selectActivePage,
+    });
   }
 
   handlePageChange = (pageNumber) => {
@@ -72,6 +74,12 @@ class CharacterList extends Component {
   };
 
   render() {
+    const {
+      selectCharacters,
+      selectActivePage,
+      selectCharactersPerPage,
+      selectTotalCharacters,
+    } = this.props;
     return (
       <div className="character-list-container">
         <h2 className="title">CHARACTERS</h2>
@@ -80,14 +88,14 @@ class CharacterList extends Component {
           handleSearch={this.handleSearch}
         />
         <div className="character-list">
-          {this.state.characters.map((character) => (
+          {selectCharacters.map((character) => (
             <CharacterCard key={character.id} character={character} />
           ))}
         </div>
         <Pagination
-          activePage={this.state.activePage}
-          itemsCountPerPage={this.state.charactersPerPage}
-          totalItemsCount={this.state.totalCharacters}
+          activePage={selectActivePage}
+          itemsCountPerPage={selectCharactersPerPage}
+          totalItemsCount={selectTotalCharacters}
           pageRangeDisplayed={5}
           onChange={this.handlePageChange}
           innerClass={"pagination"}
@@ -99,7 +107,14 @@ class CharacterList extends Component {
   }
 }
 
+const mapStateToProps = createStructuredSelector({
+  selectCharacters: selectCurrentCharacters,
+  selectActivePage: selectActivePage,
+  selectCharactersPerPage: selectCharactersPerPage,
+  selectTotalCharacters: selectTotalCharacters,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   getCharactersStart: (params) => dispatch(getCharactersStart(params)),
 });
-export default connect(null, mapDispatchToProps)(CharacterList);
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterList);
