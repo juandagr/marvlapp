@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import CharacterCard from "../character-card/character-card.component";
 
 import "./character-list.styles.scss";
-import { getCharacters } from "../../../marvel-api/characters";
 import Pagination from "react-js-pagination";
 import Search from "../../general-components/search/search.component";
 
@@ -17,13 +16,11 @@ import {
 } from "../../../redux/characters/characters.selectors";
 
 class CharacterList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
-      characters: [],
-      activePage: 1,
-      charactersPerPage: 24,
-      totalCharacters: 0,
+      searchText: "",
     };
   }
 
@@ -33,44 +30,35 @@ class CharacterList extends Component {
       selectActivePage,
       selectCharactersPerPage,
     } = this.props;
+
     getCharactersStart({
       charactersPerPage: selectCharactersPerPage,
       pageNumber: selectActivePage,
+      nameStartsWith: this.state.searchText,
     });
   }
 
   handlePageChange = (pageNumber) => {
-    this.setState({ activePage: pageNumber });
+    const { getCharactersStart, selectCharactersPerPage } = this.props;
 
-    const charactersCall = getCharacters([
-      { key: "limit", value: this.state.charactersPerPage },
-      {
-        key: "offset",
-        value: `${(pageNumber - 1) * this.state.charactersPerPage}`,
-      },
-    ]);
-
-    fetch(charactersCall)
-      .then((response) => response.json())
-      .then((response) => this.setState({ characters: response.data.results }));
+    getCharactersStart({
+      charactersPerPage: selectCharactersPerPage,
+      pageNumber: pageNumber,
+      nameStartsWith: this.state.searchText,
+    });
   };
 
   handleSearch = (event) => {
     const pageNumber = 1;
-    this.setState({ activePage: pageNumber });
+    this.setState({ searchText: event.target.value });
 
-    const charactersCall = getCharacters([
-      { key: "limit", value: this.state.charactersPerPage },
-      {
-        key: "offset",
-        value: `${(pageNumber - 1) * this.state.charactersPerPage}`,
-      },
-      { key: "nameStartsWith", value: event.target.value },
-    ]);
+    const { getCharactersStart, selectCharactersPerPage } = this.props;
 
-    fetch(charactersCall)
-      .then((response) => response.json())
-      .then((response) => this.setState({ characters: response.data.results }));
+    getCharactersStart({
+      charactersPerPage: selectCharactersPerPage,
+      pageNumber: pageNumber,
+      nameStartsWith: event.target.value,
+    });
   };
 
   render() {

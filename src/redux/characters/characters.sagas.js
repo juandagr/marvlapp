@@ -9,16 +9,22 @@ import {
 import { getCharacters } from "../../marvel-api/characters";
 
 export function* getCharactersFromAPI({
-  payload: { charactersPerPage, pageNumber },
+  payload: { charactersPerPage, pageNumber, nameStartsWith },
 }) {
   try {
-    const charactersCall = getCharacters([
+    const queryParams = [
       { key: "limit", value: charactersPerPage },
       {
         key: "offset",
         value: `${(pageNumber - 1) * charactersPerPage}`,
       },
-    ]);
+    ];
+
+    if (nameStartsWith !== "") {
+      queryParams.push({ key: "nameStartsWith", value: nameStartsWith });
+    }
+
+    const charactersCall = getCharacters(queryParams);
 
     const charactersdata = yield fetch(charactersCall)
       .then((response) => response.json())
