@@ -14,6 +14,7 @@ const charactersReducer = (state = INITIAL_STATE, action) => {
     case CharactersTypes.GET_CHARACTERS_START:
       return {
         ...state,
+        characters: [],
         isCharactersFetching: true,
       };
     case CharactersTypes.GET_CHARACTERS_SUCCESS:
@@ -28,6 +29,7 @@ const charactersReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
+        isCharactersFetching: false,
       };
     default:
       return state;

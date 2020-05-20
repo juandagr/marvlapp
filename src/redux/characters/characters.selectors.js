@@ -21,3 +21,13 @@ export const selectCharactersPerPage = createSelector(
   [selectCharacters],
   (charactersState) => charactersState.charactersPerPage
 );
+
+export const selectIsCharactersFetching = createSelector(
+  [selectCharacters],
+  (charactersState) => charactersState.isCharactersFetching
+);
+
+export const selectCharactersLoading = createSelector(
+  [selectCharacters],
+  (charactersState) => (charactersState.characters.length === 0 ? true : false)
+);
